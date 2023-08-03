@@ -1,0 +1,8 @@
+.pages {
+    display: flex !important;
+    flex: 4;
+}
+
+.css-zxtyt4-MuiPaper-root-MuiAppBar-root {
+    background-color: red !important;
+}
