@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import axios from "axios";
 
 function Copyright(props) {
   return (
@@ -31,8 +32,6 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
 const defaultTheme = createTheme();
 
 export default function SignUp() {
@@ -40,9 +39,22 @@ export default function SignUp() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
+      userName: data.get("userName"),
       email: data.get("email"),
       password: data.get("password"),
+      role: data.get("role"),
     });
+    const url = "http://localhost:3000/ene/sim/auth/register/";
+    try {
+      axios.post(url, {
+        userName: data.get("userName"),
+        email: data.get("email"),
+        password: data.get("password"),
+        role: data.get("role"),
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -70,27 +82,18 @@ export default function SignUp() {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
-                  name="firstName"
+                  name="userName"
                   required
                   fullWidth
-                  id="firstName"
-                  label="First Name"
+                  id="userName"
+                  label="User Name"
                   autoFocus
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                />
-              </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   required
@@ -110,6 +113,17 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="role"
+                  label="Role"
+                  type="text"
+                  id="role"
+                  autoComplete="Role"
                 />
               </Grid>
               {/* <Grid item xs={12}>

@@ -103,7 +103,7 @@ function SideBar(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   const theme = createTheme({
-    shadows: ["none"],
+    // shadows: ["none"],
 
     components: {
       MuiDrawer: {
