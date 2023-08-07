@@ -100,6 +100,7 @@ export default function EditForm(props) {
       })
       .then((response) => {
         navigate("/");
+
         console.log(response);
         if (response.status == "OK") {
         }
@@ -144,7 +145,7 @@ export default function EditForm(props) {
                   }
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="clientName"
                   name="clientName"
@@ -158,7 +159,7 @@ export default function EditForm(props) {
                   }
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   fullWidth
@@ -172,7 +173,7 @@ export default function EditForm(props) {
                   }
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   fullWidth
@@ -183,6 +184,25 @@ export default function EditForm(props) {
                   value={editData.IMSI}
                   onChange={(e) =>
                     setEditData({ ...editData, IMSI: e.target.value })
+                  }
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  name="connectionType"
+                  label="connectionType"
+                  type="connectionType"
+                  id="connectionType"
+                  autoComplete="connectionType"
+                  value={editData.connectionType}
+                  onChange={(e) =>
+                    setEditData({
+                      ...editData,
+                      connectionType: e.target.value,
+                    })
                   }
                 />
               </Grid>
@@ -198,21 +218,6 @@ export default function EditForm(props) {
                   value={editData.location}
                   onChange={(e) =>
                     setEditData({ ...editData, location: e.target.value })
-                  }
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="connectionType"
-                  label="connectionType"
-                  type="connectionType"
-                  id="connectionType"
-                  autoComplete="connectionType"
-                  value={editData.connectionType}
-                  onChange={(e) =>
-                    setEditData({ ...editData, connectionType: e.target.value })
                   }
                 />
               </Grid>

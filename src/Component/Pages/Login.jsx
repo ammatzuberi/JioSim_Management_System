@@ -47,45 +47,40 @@ export default function Login() {
       email: data.get("email"),
       password: data.get("password"),
     });
-    const url = "http://localhost:3000/ene/sim/auth/login/";
-    const headers = {
-      "content-Type": "application/json", // Set appropriate content type for your request
+    const url = "http://localhost:5000/ene/sim/auth/login/";
+
+    const header = {
+      headers: {
+        withCredentials: "include",
+        "Content-Type": "application/json",
+      },
+    };
+    const loginData = {
+      email: data.get("email"),
+      password: data.get("password"),
     };
 
-    fetch("http://localhost:3000/ene/sim/auth/login", {
-      method: "POST",
-      body: JSON.stringify({
-        email: data.get("email"),
-        password: data.get("password"),
-      }),
-      credentials: "include",
-      headers: {
-        "content-Type": "application/json",
-      },
-    });
-  };
+    // fetch("http://localhost:5000/ene/sim/auth/login", {
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //     email: data.get("email"),
+    //     password: data.get("password"),
+    //   }),
+    //   credentials: "include",
+    //   headers: {
+    //     "content-Type": "application/json",
+    //   },
+    // });
 
-  //   try {
-  //     await axios
-  //       .post(
-  //         url,
-  //         {
-  //           email: data.get("email"),
-  //           password: data.get("password"),
-  //         },
-  //         {
-  //           headers,
-  //           withCredentials: "include",
-  //         }
-  //       )
-  //       .then((response) => {
-  //         console.log(response);
-  //         // console.log(response.cookies["token"]);
-  //       });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+    try {
+      await axios.post(url, loginData, header).then((response) => {
+        console.log(response);
+        // console.log(response.cookies["token"]);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <ThemeProvider theme={defaultTheme}>

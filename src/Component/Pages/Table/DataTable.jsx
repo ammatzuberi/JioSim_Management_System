@@ -2,7 +2,7 @@ import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { SearchTable } from "./Search/Search";
 import { Button, Grid, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import classes from "./DataTable.module.css";
 import AddIcon from "@mui/icons-material/Add";
 import { MDBDataTable } from "mdbreact";
@@ -14,35 +14,48 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 
 export default function DataTable(props) {
-  const { sim } = props.getSim;
-  console.log(sim);
+  const [simData, setSimData] = React.useState([]);
+  const getSimData = async () => {
+    const url = "http://localhost:5000/ene/sim/All/";
+
+    try {
+      const response = await axios.get(url);
+
+      setSimData(response.data);
+    } catch (error) {
+      console.log("Error While Fetching Data", error);
+    }
+  };
+
+  React.useEffect(() => {
+    getSimData();
+  }, []);
+
+  const navigate = useNavigate();
+  // const { sim } = props.getSim;
+  // console.log(sim);
 
   var columns = [
     {
-      label: "companyName",
+      label: "Company Name",
       field: "companyName",
-      sort: "asc",
     },
     {
-      label: "clientName",
+      label: "Client Name",
       field: "clientName",
-      sort: "asc",
     },
 
     {
       label: "ICCID",
       field: "ICCID",
-      sort: "asc",
     },
     {
       label: "IMSI",
       field: "IMSI",
-      sort: "asc",
     },
     {
-      label: "location",
+      label: "Location",
       field: "location",
-      sort: "asc",
     },
 
     {
@@ -82,12 +95,14 @@ export default function DataTable(props) {
 
         Swal.fire("Deleted!", "Your file has been deleted.", "success").then(
           () => {
-            window.location.reload();
+            navigate("/");
           }
         );
       }
     });
   };
+  console.log(simData);
+  const { sim } = simData;
   var rows =
     sim?.map((row) => ({
       clientName: row?.clientName,
@@ -122,6 +137,10 @@ export default function DataTable(props) {
           <Typography
             sx={{
               color: "#111927",
+              fontWeight: 800,
+              fontSize: 30,
+              fontFamily: " Plus Jakarta Sans sans-serif",
+              marginLeft: ".5rem",
             }}
           >
             Sim Dashboard
@@ -138,7 +157,16 @@ export default function DataTable(props) {
       </Grid>
 
       {/* <SearchTable /> */}
-      <div style={{ height: 400, width: "100%" }}>
+      <div
+        className={classes.tableContainer}
+        style={{
+          boxShadow:
+            "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
+          // boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+          padding: "1rem",
+          borderRadius: "1rem",
+        }}
+      >
         {/* <DataGrid
           getRowId={(row) => row.idsim}
           columns={columns}
@@ -152,7 +180,16 @@ export default function DataTable(props) {
           pageSizeOptions={[5, 10, 15, 20]}
           // checkboxSelection
         /> */}
-        <MDBDataTable data={tableData} noBottomColumns sortable />
+        <MDBDataTable
+          data={tableData}
+          noBottomColumns
+          striped
+          borderless
+          fontFamil
+          sortable
+          scrollX
+          scrollY
+        />
       </div>
     </>
   );

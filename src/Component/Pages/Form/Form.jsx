@@ -13,6 +13,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
+import Swal from "sweetalert2/dist/sweetalert2.js";
+import "sweetalert2/src/sweetalert2.scss";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
@@ -47,7 +49,11 @@ export default function Form() {
         const { data } = response;
 
         console.log("error", data);
-        setErrorFound(data);
+
+        Swal.fire({
+          icon: "error",
+          title: data.msg || data.message,
+        });
       });
   };
   return (
@@ -81,7 +87,7 @@ export default function Form() {
                   autoFocus
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="clientName"
                   name="clientName"
@@ -92,7 +98,7 @@ export default function Form() {
                   autoFocus
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   fullWidth
@@ -102,7 +108,7 @@ export default function Form() {
                   autoComplete="family-name"
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   fullWidth
@@ -112,10 +118,17 @@ export default function Form() {
                   autoComplete="IMSI"
                 />
               </Grid>
-              <Grid item xs={12}>
-                <Typography sx={{ color: "red" }}>
-                  {errorFound.message}
-                </Typography>
+
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  name="connectionType"
+                  label="connectionType"
+                  type="connectionType"
+                  id="connectionType"
+                  autoComplete="connectionType"
+                />
               </Grid>
 
               <Grid item xs={12}>
@@ -127,17 +140,6 @@ export default function Form() {
                   type="location"
                   id="location"
                   autoComplete="location"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="connectionType"
-                  label="connectionType"
-                  type="connectionType"
-                  id="connectionType"
-                  autoComplete="connectionType"
                 />
               </Grid>
             </Grid>
