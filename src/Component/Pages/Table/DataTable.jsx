@@ -16,7 +16,7 @@ import EditIcon from "@mui/icons-material/Edit";
 export default function DataTable(props) {
   const [simData, setSimData] = React.useState([]);
   const getSimData = async () => {
-    const url = "http://localhost:5000/ene/sim/All/";
+    const url = "http://localhost:8085/ene/sim/All/";
 
     try {
       const response = await axios.get(url);
@@ -32,8 +32,6 @@ export default function DataTable(props) {
   }, []);
 
   const navigate = useNavigate();
-  // const { sim } = props.getSim;
-  // console.log(sim);
 
   var columns = [
     {
@@ -67,9 +65,6 @@ export default function DataTable(props) {
       field: "Delete",
     },
   ];
-  // console.log(sim);
-
-  // console.log(proRef.current.map((item)=>));
 
   React.useEffect(() => {}, [props]);
   const handleDelete = (id) => {
@@ -83,7 +78,7 @@ export default function DataTable(props) {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        const url = `http://localhost:3000/ene/sim/remove/${id}`;
+        const url = `http://localhost:8085/ene/sim/remove/${id}`;
         axios
           .delete(url)
           .then((response) => {
@@ -148,7 +143,17 @@ export default function DataTable(props) {
         </Grid>
         <Grid item>
           <Link to="/form">
-            <button className={classes.button}>
+            <button
+              style={{
+                color: "white",
+                backgroundColor: "#4338ca",
+                borderRadius: "2rem",
+                textAlign: "center",
+                width: "7rem",
+                height: "2.2rem",
+                border: "none",
+              }}
+            >
               <AddIcon />
               Add
             </button>
@@ -156,7 +161,6 @@ export default function DataTable(props) {
         </Grid>
       </Grid>
 
-      {/* <SearchTable /> */}
       <div
         className={classes.tableContainer}
         style={{
@@ -165,28 +169,15 @@ export default function DataTable(props) {
           // boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
           padding: "1rem",
           borderRadius: "1rem",
+          // scrollbarColor,
         }}
       >
-        {/* <DataGrid
-          getRowId={(row) => row.idsim}
-          columns={columns}
-          editMode="row"
-          rows={rows}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
-            },
-          }}
-          pageSizeOptions={[5, 10, 15, 20]}
-          // checkboxSelection
-        /> */}
         <MDBDataTable
           data={tableData}
           noBottomColumns
           striped
           borderless
-          fontFamil
-          sortable
+          // sortable
           scrollX
           scrollY
         />

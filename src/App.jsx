@@ -8,11 +8,13 @@ import ProtectedRoute from "./Component/Pages/ProtectiveRoute/ProtectedRoute";
 import SignUp from "./Component/Pages/Signup";
 import {
   BrowserRouter,
+  Navigate,
   Route,
   Router,
   RouterProvider,
   Routes,
   createBrowserRouter,
+  useNavigate,
 } from "react-router-dom";
 import DataTable from "./Component/Pages/Table/DataTable";
 import { useEffect, useState } from "react";
@@ -22,8 +24,9 @@ import { SimCardIcon } from "@mui/icons-material/SimCard";
 
 function App() {
   const [simData, setSimData] = useState([]);
+  const [tokenval, setTokenVal] = useState("");
   const getSimData = async () => {
-    const url = "http://localhost:5000/ene/sim/All/";
+    const url = "http://localhost:8085/ene/sim/All/";
 
     try {
       const response = await axios.get(url);
@@ -35,6 +38,9 @@ function App() {
   };
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    setTokenVal(token);
     getSimData();
   }, []);
 
@@ -42,13 +48,17 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route element={<Login />} path="/login" />
-          <Route element={<SignUp />} path="/signup" />
-          <Route element={<ProtectedRoute />}>
+          <Route
+            element={!tokenval ? <Login /> : <Navigate to="/" />}
+            path="/login"
+          />
+          {/* <Route element={tokenval ? <SignUp /> : <Navigate to=''/> />} path="/signup" /> */}
+          <Route element={<ProtectedRoute token={tokenval} />}>
             <Route element={<DataTable />} path="/" />
             <Route element={<Form />} path="/form" />
             <Route element={<EditForm getSim={simData} />} path="/Edit/:id/" />
           </Route>
+          <Route element={tokenval ? <SignUp /> : <Login />} path="/signup" />
 
           {/* <Route element={<Authentication />} path="/login" /> */}
         </Routes>

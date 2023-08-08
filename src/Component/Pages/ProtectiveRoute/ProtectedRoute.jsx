@@ -1,16 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SideBar from "../NavBar/SIdeBar";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import classes from "./ProtectedRoute.module.css";
 import DataTable from "../Table/DataTable";
 import { Box, Toolbar } from "@mui/material";
 
-export default function ProtectedRoute() {
+export default function ProtectedRoute(props) {
   const drawerWidth = 240;
-  return (
+  // console.log(props.token);
+  return props.token ? (
     <>
       <SideBar />
-
       <Box
         component="main"
         sx={{
@@ -27,5 +27,7 @@ export default function ProtectedRoute() {
         {/* <Toolbar /> */}
       </Box>
     </>
+  ) : (
+    <Navigate to="/login" />
   );
 }

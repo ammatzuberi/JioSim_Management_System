@@ -13,9 +13,11 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import SignUp from "./Signup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
+import Swal from "sweetalert2/dist/sweetalert2.js";
+import "sweetalert2/src/sweetalert2.scss";
 
 function Copyright(props) {
   return (
@@ -40,6 +42,7 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function Login() {
+  const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -47,7 +50,7 @@ export default function Login() {
       email: data.get("email"),
       password: data.get("password"),
     });
-    const url = "http://localhost:5000/ene/sim/auth/login/";
+    const url = "http://localhost:8085/ene/sim/auth/login/";
 
     const header = {
       headers: {
@@ -60,25 +63,36 @@ export default function Login() {
       password: data.get("password"),
     };
 
-    // fetch("http://localhost:5000/ene/sim/auth/login", {
+    // fetch("http://localhost:8085/ene/sim/auth/login", {
     //   method: "POST",
+
+    //   headers: {
+    //     "content-Type": "application/json",
+    //   },
+    //   credentials: "include",
     //   body: JSON.stringify({
     //     email: data.get("email"),
     //     password: data.get("password"),
     //   }),
-    //   credentials: "include",
-    //   headers: {
-    //     "content-Type": "application/json",
-    //   },
     // });
 
     try {
-      await axios.post(url, loginData, header).then((response) => {
-        console.log(response);
-        // console.log(response.cookies["token"]);
-      });
+      await axios
+        .post(url, loginData, {
+          withCredentials: "include",
+        })
+        .then((response) => {
+          console.log(response.data.token);
+          localStorage.setItem("token", response.data.token);
+          window.location.reload();
+        });
     } catch (error) {
-      console.log(error);
+      // console.log(error.response.data);
+      const { msg } = error.response.data;
+      Swal.fire({
+        icon: "error",
+        title: msg,
+      });
     }
   };
 
@@ -145,10 +159,10 @@ export default function Login() {
                 id="password"
                 autoComplete="current-password"
               />
-              <FormControlLabel
+              {/* <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
-              />
+              /> */}
               <Button
                 type="submit"
                 fullWidth
@@ -159,12 +173,12 @@ export default function Login() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  {/* <Link href="#" variant="body2">
                     Forgot password?
-                  </Link>
+                  </Link> */}
                 </Grid>
                 <Link to="/signup" variant="body2">
-                  Don't have an account? Sign Up
+                  Create New Account
                 </Link>
                 <Grid item></Grid>
               </Grid>

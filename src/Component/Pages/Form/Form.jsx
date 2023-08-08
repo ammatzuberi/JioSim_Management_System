@@ -27,7 +27,7 @@ export default function Form() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    const url = "http://localhost:3000/ene/sim/create";
+    const url = "http://localhost:8085/ene/sim/create";
     axios
       .post(url, {
         companyName: data.get("Company Name"),
@@ -121,7 +121,7 @@ export default function Form() {
 
               <Grid item xs={12} sm={6}>
                 <TextField
-                  required
+                  requireds
                   fullWidth
                   name="connectionType"
                   label="connectionType"

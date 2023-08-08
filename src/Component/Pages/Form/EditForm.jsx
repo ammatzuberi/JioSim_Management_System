@@ -31,7 +31,7 @@ export default function EditForm(props) {
   });
   React.useEffect(() => {
     const getSimData = async () => {
-      const url = "http://localhost:3000/ene/sim/All/";
+      const url = "http://localhost:8085/ene/sim/All/";
 
       try {
         const response = await axios.get(url);
@@ -87,7 +87,7 @@ export default function EditForm(props) {
       clientName: data.get("clientName"),
     });
 
-    const url = `http://localhost:3000/ene/sim/update/${id}`;
+    const url = `http://localhost:8085/ene/sim/update/${id}`;
     axios
       .patch(url, {
         companyName: data.get("Company Name"),

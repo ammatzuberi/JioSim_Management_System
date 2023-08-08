@@ -44,7 +44,7 @@ export default function SignUp() {
       password: data.get("password"),
       role: data.get("role"),
     });
-    const url = "http://localhost:3000/ene/sim/auth/register/";
+    const url = "http://localhost:8085/ene/sim/auth/register/";
     try {
       axios.post(url, {
         userName: data.get("userName"),

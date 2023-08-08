@@ -34,6 +34,10 @@ import SimCardIcon from "@mui/icons-material/SimCard";
 const drawerWidth = 240;
 
 function SideBar(props) {
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.reload();
+  };
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -80,7 +84,24 @@ function SideBar(props) {
             </ListItemButton>
           </ListItem>
         </NavLink>
+
         <NavLink
+          to="/signup"
+          className={(navData) =>
+            navData.isActive ? classes.active : classes.link
+          }
+        >
+          <ListItem disablePadding className={classes.listItem}>
+            <ListItemButton>
+              <ListItemIcon></ListItemIcon>
+              <SimCardIcon className={classes.icons} />
+
+              <ListItemText> Create User </ListItemText>
+            </ListItemButton>
+          </ListItem>
+        </NavLink>
+        <NavLink
+          onClick={handleLogout}
           to="/login"
           className={(navData) =>
             navData.isActive ? classes.active : classes.link
