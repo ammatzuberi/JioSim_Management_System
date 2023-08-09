@@ -63,7 +63,7 @@ export default function SignUp() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: -8,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -147,7 +147,7 @@ export default function SignUp() {
               <Grid item>
                 {/* <Link to="/login" variant="body2">
                   {" "}
-                  Already have an account? Sign in
+                  Already have an account? Sign in  
                 </Link> */}
               </Grid>
             </Grid>

@@ -19,7 +19,7 @@ export default function DataTable(props) {
     const url = "http://localhost:8085/ene/sim/All/";
 
     try {
-      const response = await axios.get(url);
+      const response = await axios.get(url, { withCredentials: "include" });
 
       const { sim } = response.data;
       console.log(sim);

@@ -21,6 +21,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import EditForm from "./Component/Pages/Form/EditForm";
 import { SimCardIcon } from "@mui/icons-material/SimCard";
+import CollapsibleTable from "./Demo";
+import CollapsableTable from "./Demo";
 
 function App() {
   const [simData, setSimData] = useState([]);
@@ -29,7 +31,9 @@ function App() {
     const url = "http://localhost:8085/ene/sim/All/";
 
     try {
-      const response = await axios.get(url);
+      const response = await axios.get(url, {
+        withCredentials: true,
+      });
 
       setSimData(response.data);
     } catch (error) {
@@ -48,6 +52,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
+          <Route element={<CollapsableTable />} path="/demo" />
           <Route
             // element={!tokenval ? <Login /> : <Navigate to="/Dashboard" />}
             element={<Login />}
@@ -58,12 +63,12 @@ function App() {
             <Route element={<DataTable />} path="/Dashboard" />
             <Route element={<Form />} path="/form" />
             <Route element={<EditForm getSim={simData} />} path="/Edit/:id/" />
+            <Route
+              element={tokenval ? <SignUp /> : <Login />}
+              path="/signup"
+              exact
+            />
           </Route>
-          <Route
-            element={tokenval ? <SignUp /> : <Login />}
-            path="/signup"
-            exact
-          />
 
           {/* <Route element={<Authentication />} path="/login" /> */}
         </Routes>
