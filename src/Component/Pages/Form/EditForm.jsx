@@ -99,7 +99,7 @@ export default function EditForm(props) {
         clientName: data.get("clientName"),
       })
       .then((response) => {
-        navigate("/");
+        navigate("/Dashboard");
 
         console.log(response);
         if (response.status == "OK") {

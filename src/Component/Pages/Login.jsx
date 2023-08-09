@@ -13,7 +13,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import SignUp from "./Signup";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2/dist/sweetalert2.js";
@@ -77,15 +77,16 @@ export default function Login() {
     // });
 
     try {
-      await axios
+      const response = await axios
         .post(url, loginData, {
           withCredentials: "include",
         })
         .then((response) => {
           console.log(response.data.token);
+          console.log(response);
           localStorage.setItem("token", response.data.token);
-          window.location.reload();
         });
+      navigate("/Dashboard");
     } catch (error) {
       // console.log(error.response.data);
       const { msg } = error.response.data;
@@ -131,7 +132,7 @@ export default function Login() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Login In
             </Typography>
             <Box
               component="form"
@@ -177,9 +178,9 @@ export default function Login() {
                     Forgot password?
                   </Link> */}
                 </Grid>
-                <Link to="/signup" variant="body2">
+                {/* <Link to="/signup" variant="body2">
                   Create New Account
-                </Link>
+                </Link> */}
                 <Grid item></Grid>
               </Grid>
               <Copyright sx={{ mt: 5 }} />

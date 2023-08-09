@@ -40,7 +40,7 @@ export default function Form() {
       })
       .then((response) => {
         if (response.statusText == "Created") {
-          navigate("/");
+          navigate("/Dashboard");
         } else {
         }
       })
@@ -94,7 +94,7 @@ export default function Form() {
                   required
                   fullWidth
                   id="clientName"
-                  label="clientName"
+                  label="Client Name"
                   autoFocus
                 />
               </Grid>
@@ -124,7 +124,7 @@ export default function Form() {
                   requireds
                   fullWidth
                   name="connectionType"
-                  label="connectionType"
+                  label="Vendor"
                   type="connectionType"
                   id="connectionType"
                   autoComplete="connectionType"

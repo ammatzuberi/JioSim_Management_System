@@ -18,6 +18,8 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import DataTable from "../Table/DataTable";
 import DashboardIcon from "@mui/icons-material/Dashboard";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 import { ThemeProvider } from "@emotion/react";
 import {
@@ -27,16 +29,17 @@ import {
   createTheme,
   makeStyles,
 } from "@mui/material";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, Navigate, useNavigate } from "react-router-dom";
 import classes from "./SideBar.module.css";
 import SimCardIcon from "@mui/icons-material/SimCard";
 
 const drawerWidth = 240;
 
 function SideBar(props) {
+  const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.clear();
-    window.location.reload();
+    navigate("/login");
   };
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -54,7 +57,7 @@ function SideBar(props) {
       <List>
         <NavLink
           onClick={handleDrawerToggle}
-          to="/"
+          to="/Dashboard"
           className={(navData) =>
             navData.isActive ? classes.active : classes.link
           }
@@ -94,7 +97,7 @@ function SideBar(props) {
           <ListItem disablePadding className={classes.listItem}>
             <ListItemButton>
               <ListItemIcon></ListItemIcon>
-              <SimCardIcon className={classes.icons} />
+              <PersonAddAltIcon className={classes.icons} />
 
               <ListItemText> Create User </ListItemText>
             </ListItemButton>
@@ -110,7 +113,7 @@ function SideBar(props) {
           <ListItem disablePadding className={classes.listItem}>
             <ListItemButton>
               <ListItemIcon></ListItemIcon>
-              <SimCardIcon className={classes.icons} /> Logout
+              <LogoutIcon className={classes.icons} /> Logout
               <ListItemText></ListItemText>
             </ListItemButton>
           </ListItem>
@@ -194,7 +197,7 @@ function SideBar(props) {
                 },
               }}
             >
-              Engineering & Environmental Solutions Pvt.
+              IOT SIM
             </Typography>
           </Toolbar>
         </AppBar>

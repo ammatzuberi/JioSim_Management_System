@@ -1,10 +1,10 @@
-// src/store.js
+// store.js
 import { configureStore } from "@reduxjs/toolkit";
-import dataReducer from "./dataSlice";
+import simDataReducer from "./dataSlice";
 
 const store = configureStore({
   reducer: {
-    data: dataReducer,
+    simData: simDataReducer,
   },
 });
 

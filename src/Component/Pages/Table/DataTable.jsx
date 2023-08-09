@@ -21,7 +21,11 @@ export default function DataTable(props) {
     try {
       const response = await axios.get(url);
 
-      setSimData(response.data);
+      const { sim } = response.data;
+      console.log(sim);
+
+      // setSimData((previous) => [...previous, response.data]);
+      setSimData(sim);
     } catch (error) {
       console.log("Error While Fetching Data", error);
     }
@@ -30,6 +34,7 @@ export default function DataTable(props) {
   React.useEffect(() => {
     getSimData();
   }, []);
+  console.log(simData);
 
   const navigate = useNavigate();
 
@@ -67,7 +72,7 @@ export default function DataTable(props) {
   ];
 
   React.useEffect(() => {}, [props]);
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -83,6 +88,7 @@ export default function DataTable(props) {
           .delete(url)
           .then((response) => {
             console.log("Delete successful", response.data);
+            console.log(response.data);
           })
           .catch((error) => {
             console.log("error", error);
@@ -90,16 +96,16 @@ export default function DataTable(props) {
 
         Swal.fire("Deleted!", "Your file has been deleted.", "success").then(
           () => {
+            setSimData(simData.filter((p) => p.idsim !== id));
             navigate("/");
           }
         );
       }
     });
   };
-  console.log(simData);
-  const { sim } = simData;
+
   var rows =
-    sim?.map((row) => ({
+    simData?.map((row) => ({
       clientName: row?.clientName,
       companyName: row?.companyName,
 
@@ -161,6 +167,7 @@ export default function DataTable(props) {
         </Grid>
       </Grid>
 
+      {/* <SearchTable /> */}
       <div
         className={classes.tableContainer}
         style={{
@@ -169,7 +176,6 @@ export default function DataTable(props) {
           // boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
           padding: "1rem",
           borderRadius: "1rem",
-          // scrollbarColor,
         }}
       >
         <MDBDataTable
@@ -177,7 +183,7 @@ export default function DataTable(props) {
           noBottomColumns
           striped
           borderless
-          // sortable
+          sortable
           scrollX
           scrollY
         />

@@ -49,16 +49,21 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route
-            element={!tokenval ? <Login /> : <Navigate to="/" />}
+            // element={!tokenval ? <Login /> : <Navigate to="/Dashboard" />}
+            element={<Login />}
             path="/login"
           />
           {/* <Route element={tokenval ? <SignUp /> : <Navigate to=''/> />} path="/signup" /> */}
           <Route element={<ProtectedRoute token={tokenval} />}>
-            <Route element={<DataTable />} path="/" />
+            <Route element={<DataTable />} path="/Dashboard" />
             <Route element={<Form />} path="/form" />
             <Route element={<EditForm getSim={simData} />} path="/Edit/:id/" />
           </Route>
-          <Route element={tokenval ? <SignUp /> : <Login />} path="/signup" />
+          <Route
+            element={tokenval ? <SignUp /> : <Login />}
+            path="/signup"
+            exact
+          />
 
           {/* <Route element={<Authentication />} path="/login" /> */}
         </Routes>
