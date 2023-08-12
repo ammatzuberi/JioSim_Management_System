@@ -1,7 +1,7 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { SearchTable } from "./Search/Search";
-import { Button, Grid, Typography } from "@mui/material";
+import { Accordion, Button, Grid, Typography, Card } from "@mui/material";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import classes from "./DataTable.module.css";
 import AddIcon from "@mui/icons-material/Add";
@@ -12,23 +12,33 @@ import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
+import Demo from "../../../Demo";
 
 export default function DataTable(props) {
   const [simData, setSimData] = React.useState([]);
+
+  const [expandedRow, setExpandedRow] = React.useState(null);
+
   const getSimData = async () => {
     const url = "http://localhost:8085/ene/sim/All/";
 
     try {
       const response = await axios.get(url, { withCredentials: "include" });
 
-      const { sim } = response.data;
-      console.log(sim);
+      // const { allSims } = response.data;
+      console.log(response.data);
 
       // setSimData((previous) => [...previous, response.data]);
-      setSimData(sim);
+      setSimData(response.data);
+      console.log(response.data);
     } catch (error) {
       console.log("Error While Fetching Data", error);
     }
+  };
+
+  const toggleAccordion = (index) => {
+    setExpandedRow(index === expandedRow ? null : index);
+    console.log(index);
   };
 
   React.useEffect(() => {
@@ -72,62 +82,68 @@ export default function DataTable(props) {
   ];
 
   React.useEffect(() => {}, [props]);
-  const handleDelete = async (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const url = `http://localhost:8085/ene/sim/remove/${id}`;
-        axios
-          .delete(url)
-          .then((response) => {
-            console.log("Delete successful", response.data);
-            console.log(response.data);
-          })
-          .catch((error) => {
-            console.log("error", error);
-          });
 
-        Swal.fire("Deleted!", "Your file has been deleted.", "success").then(
-          () => {
-            setSimData(simData.filter((p) => p.idsim !== id));
-            navigate("/");
-          }
-        );
-      }
-    });
-  };
+  const rows = simData.map((row, index) => ({
+    companyName: row.company,
+  }));
 
-  var rows =
-    simData?.map((row) => ({
-      clientName: row?.clientName,
-      companyName: row?.companyName,
-
-      IMSI: row?.IMSI,
-      ICCID: row?.ICCID,
-      location: row?.location,
-      Edit: (
-        <Link to={"/Edit/" + row.idsim} style={{ color: "#6366f1" }}>
-          <EditIcon />
-        </Link>
-      ),
-      Delete: (
-        <button
-          onClick={() => handleDelete(row.idsim)}
-          style={{ border: "none" }}
-        >
-          <DeleteForeverIcon style={{ color: "red" }} />
-        </button>
-      ),
-    })) || [];
+  //   simData?.flatMap((row, index) => ({
+  //     companyName: (
+  //       <>
+  //         <tr>
+  //           <td colSpan={10} onClick={() => toggleAccordion(index)}>
+  //             <Grid
+  //               container
+  //               justifyContent="space-between"
+  //               marginBottom="1rem"
+  //             >
+  //               <Grid item>{row.company}</Grid>
+  //               <Grid>
+  //                 <p style={{ color: "blue" }}>{row.allSims.length}</p>
+  //               </Grid>
+  //             </Grid>
+  //           </td>
+  //         </tr>
+  //         {expandedRow === index && (
+  //           <div className="accordion-content">
+  //             <ul>
+  //               {row.allSims.map((sim, simIndex) => (
+  //                 <li key={simIndex}>
+  //                   {sim.ICCID}
+  //                   <br />
+  //                   <strong>IMSI:</strong> {sim.IMSI}
+  //                   <br />
+  //                   <strong>Client Name:</strong> {sim.clientName}
+  //                   <br />
+  //                   <strong>Connection Type:</strong> {sim.connectionType}
+  //                   <br />
+  //                   <strong>Location:</strong> {sim.location}
+  //                   <br />
+  //                   <strong>Company Name:</strong> {sim.companyName}
+  //                   <br />
+  //                   <strong>Company ID:</strong> {sim.companyId}
+  //                   <br />
+  //                 </li>
+  //               ))}
+  //             </ul>
+  //           </div>
+  //         )}
+  //         Edit: (
+  //         <Link to={"/Edit/" + row.idsim} style={{ color: "#6366f1" }}>
+  //           <EditIcon />
+  //         </Link>
+  //         ), Delete: (
+  //         <button
+  //           onClick={() => handleDelete(row.idsim)}
+  //           style={{ border: "none" }}
+  //         >
+  //           <DeleteForeverIcon style={{ color: "red" }} />
+  //         </button>
+  //       </>
+  //     ),
+  //   })) || [];
   const tableData = {
-    columns,
+    columns: [...columns, { label: "", field: "actions" }],
     rows,
   };
 
@@ -155,39 +171,34 @@ export default function DataTable(props) {
                 backgroundColor: "#4338ca",
                 borderRadius: "2rem",
                 textAlign: "center",
-                width: "7rem",
+                width: "14rem",
                 height: "2.2rem",
                 border: "none",
               }}
             >
               <AddIcon />
-              Add
+              Add New Company Sim
             </button>
           </Link>
         </Grid>
       </Grid>
 
       {/* <SearchTable /> */}
-      <div
-        className={classes.tableContainer}
-        style={{
-          boxShadow:
-            "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
-          // boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
-          padding: "1rem",
-          borderRadius: "1rem",
-        }}
-      >
-        <MDBDataTable
-          data={tableData}
-          noBottomColumns
-          striped
-          borderless
-          sortable
-          scrollX
-          scrollY
-        />
-      </div>
+
+      <Grid item>
+        <div
+          className={classes.tableContainer}
+          style={{
+            boxShadow:
+              "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
+            // boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+            padding: "1rem",
+            borderRadius: "1rem",
+          }}
+        >
+          <Demo />
+        </div>
+      </Grid>
     </>
   );
 }

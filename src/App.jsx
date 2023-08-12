@@ -16,6 +16,7 @@ import {
   createBrowserRouter,
   useNavigate,
 } from "react-router-dom";
+import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import DataTable from "./Component/Pages/Table/DataTable";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -23,6 +24,7 @@ import EditForm from "./Component/Pages/Form/EditForm";
 import { SimCardIcon } from "@mui/icons-material/SimCard";
 import CollapsibleTable from "./Demo";
 import CollapsableTable from "./Demo";
+import AddSimToExistingCompany from "./Component/Pages/Form/AddSimToExistingCompay";
 
 function App() {
   const [simData, setSimData] = useState([]);
@@ -40,12 +42,15 @@ function App() {
       console.log("Error While Fetching Data", error);
     }
   };
-
-  useEffect(() => {
+  const tokenFunction = () => {
     const token = localStorage.getItem("token");
 
     setTokenVal(token);
+  };
+
+  useEffect(() => {
     getSimData();
+    tokenFunction();
   }, []);
 
   return (
@@ -54,23 +59,17 @@ function App() {
         <Routes>
           <Route element={<CollapsableTable />} path="/demo" />
           <Route
-            // element={!tokenval ? <Login /> : <Navigate to="/Dashboard" />}
-            element={<Login />}
+            element={!tokenval ? <Login /> : <Navigate to="/" />}
             path="/login"
           />
-          {/* <Route element={tokenval ? <SignUp /> : <Navigate to=''/> />} path="/signup" /> */}
-          <Route element={<ProtectedRoute token={tokenval} />}>
-            <Route element={<DataTable />} path="/Dashboard" />
-            <Route element={<Form />} path="/form" />
-            <Route element={<EditForm getSim={simData} />} path="/Edit/:id/" />
-            <Route
-              element={tokenval ? <SignUp /> : <Login />}
-              path="/signup"
-              exact
-            />
-          </Route>
 
-          {/* <Route element={<Authentication />} path="/login" /> */}
+          <Route element={<ProtectedRoute />}>
+            <Route element={<DataTable />} path="/" />
+            <Route element={<Form />} path="/form" />
+            <Route element={<AddSimToExistingCompany />} path="/AddSim/:id" />
+            <Route element={<EditForm getSim={simData} />} path="/Edit/:id/" />
+            <Route element={tokenval ? <SignUp /> : <Login />} path="/signup" />
+          </Route>
         </Routes>
       </BrowserRouter>
     </>

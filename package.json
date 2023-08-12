@@ -32,7 +32,8 @@
     "sass": "^1.64.2",
     "scss": "^0.2.4",
     "sweetalert": "^2.1.2",
-    "sweetalert2": "^11.7.20"
+    "sweetalert2": "^11.7.20",
+    "universal-cookie": "^4.0.4"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

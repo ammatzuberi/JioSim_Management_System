@@ -82,11 +82,14 @@ export default function Login() {
           withCredentials: "include",
         })
         .then((response) => {
-          console.log(response.data.token);
+          // console.log(response.data.token);
           console.log(response);
           localStorage.setItem("token", response.data.token);
+          const { email, role, userName } = response.data.user;
+          localStorage.setItem("userResponse", email, role, userName);
+          // if(response)
         });
-      navigate("/Dashboard");
+      navigate("/");
     } catch (error) {
       // console.log(error.response.data);
       const { msg } = error.response.data;

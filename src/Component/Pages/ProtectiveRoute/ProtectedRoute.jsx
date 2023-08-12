@@ -7,7 +7,7 @@ import { Box, Toolbar } from "@mui/material";
 
 export default function ProtectedRoute(props) {
   const drawerWidth = 240;
-  // console.log(props.token);
+
   const token = localStorage.getItem("token");
   return token ? (
     <>

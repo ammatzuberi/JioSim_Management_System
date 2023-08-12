@@ -57,7 +57,7 @@ function SideBar(props) {
       <List>
         <NavLink
           onClick={handleDrawerToggle}
-          to="/Dashboard"
+          to="/"
           className={(navData) =>
             navData.isActive ? classes.active : classes.link
           }
@@ -90,6 +90,7 @@ function SideBar(props) {
 
         <NavLink
           to="/signup"
+          exact
           className={(navData) =>
             navData.isActive ? classes.active : classes.link
           }

@@ -16,12 +16,12 @@ import axios from "axios";
 
 const defaultTheme = createTheme();
 
-export default function EditForm(props) {
+export default function AddSimToExistingCompany(props) {
   const [simData, setSimData] = React.useState("");
 
   const { id } = useParams();
   const [editData, setEditData] = React.useState({
-    id: id,
+    // id: id,
     companyName: "",
     clientName: "",
     IMSI: "",
@@ -58,13 +58,13 @@ export default function EditForm(props) {
         if (item.idsim == id) {
           return setEditData({
             ...editData,
-            simid: id,
+            // simid: id,
             companyName: item.companyName,
-            clientName: item.clientName,
-            IMSI: item.IMSI,
-            ICCID: item.ICCID,
-            location: item.location,
-            connectionType: item.connectionType,
+            // clientName: item.clientName,
+            // IMSI: item.IMSI,
+            // ICCID: item.ICCID,
+            // location: item.location,
+            // connectionType: item.connectionType,
           });
         }
       });
@@ -102,9 +102,9 @@ export default function EditForm(props) {
       clientName: data.get("clientName"),
     });
 
-    const url = `http://localhost:8085/ene/sim/update/${id}`;
+    const url = "http://localhost:8085/ene/sim/create";
     axios
-      .patch(url, {
+      .post(url, {
         companyName: data.get("Company Name"),
         ICCID: data.get("ICCID"),
         IMSI: data.get("IMSI"),
