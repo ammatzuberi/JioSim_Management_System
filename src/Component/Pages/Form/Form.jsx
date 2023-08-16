@@ -15,17 +15,25 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
+import { Select, MenuItem } from "@mui/material";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
 export default function Form() {
+  const [selectedValue, setSelectedValue] = React.useState("");
+
+  const handleChange = (event) => {
+    setSelectedValue(event.target.value);
+    console.log(event.target.value.toString());
+  };
   const [errorFound, setErrorFound] = React.useState("");
   const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    // console.log(data);
 
     const url = "http://localhost:8085/ene/sim/create";
     axios
@@ -35,7 +43,7 @@ export default function Form() {
         IMSI: data.get("IMSI"),
 
         location: data.get("location"),
-        connectionType: data.get("connectionType"),
+        connectionType: selectedValue,
         clientName: data.get("clientName"),
       })
       .then((response) => {
@@ -120,7 +128,20 @@ export default function Form() {
               </Grid>
 
               <Grid item xs={12} sm={6}>
-                <TextField
+                <Select
+                  value={selectedValue}
+                  label="Vendor"
+                  onChange={handleChange}
+                  inputProps={{
+                    name: "vendor",
+                    id: "vendor-select",
+                  }}
+                  // onChange={handleChange}
+                >
+                  <MenuItem value="Airtel">Airtel</MenuItem>
+                  <MenuItem value="Jio">Jio</MenuItem>
+                </Select>
+                {/* <TextField
                   requireds
                   fullWidth
                   name="connectionType"
@@ -128,7 +149,7 @@ export default function Form() {
                   type="connectionType"
                   id="connectionType"
                   autoComplete="connectionType"
-                />
+                /> */}
               </Grid>
 
               <Grid item xs={12}>

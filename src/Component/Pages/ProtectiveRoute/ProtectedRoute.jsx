@@ -24,8 +24,6 @@ export default function ProtectedRoute(props) {
         }}
       >
         <Outlet />
-        {/* <DataTable /> */}
-        {/* <Toolbar /> */}
       </Box>
     </>
   ) : (

@@ -142,10 +142,10 @@ export default function DataTable(props) {
   //       </>
   //     ),
   //   })) || [];
-  const tableData = {
-    columns: [...columns, { label: "", field: "actions" }],
-    rows,
-  };
+  // const tableData = {
+  //   columns: [...columns, { label: "", field: "actions" }],
+  //   rows,
+  // };
 
   return (
     <>
@@ -168,12 +168,11 @@ export default function DataTable(props) {
             <button
               style={{
                 color: "white",
-                backgroundColor: "#4338ca",
-                borderRadius: "2rem",
-                textAlign: "center",
-                width: "14rem",
-                height: "2.2rem",
+                backgroundColor: "#33a0ff",
                 border: "none",
+                borderRadius: "0.25rem",
+                padding: "0.5rem 1rem",
+                cursor: "pointer",
               }}
             >
               <AddIcon />
@@ -185,17 +184,8 @@ export default function DataTable(props) {
 
       {/* <SearchTable /> */}
 
-      <Grid item>
-        <div
-          className={classes.tableContainer}
-          style={{
-            boxShadow:
-              "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
-            // boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
-            padding: "1rem",
-            borderRadius: "1rem",
-          }}
-        >
+      <Grid item sx={{ backgroundColor: "f3f3f9", padding: "2rem" }}>
+        <div className={classes.tableContainer}>
           <Demo />
         </div>
       </Grid>

@@ -12,6 +12,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Select, MenuItem } from "@mui/material";
 import axios from "axios";
 
 const defaultTheme = createTheme();
@@ -54,36 +55,14 @@ export default function AddSimToExistingCompany(props) {
   const params = useParams();
   const gettingData = async () => {
     await simData?.map((company) => {
-      company?.allSims?.map((item) => {
-        if (item.idsim == id) {
-          return setEditData({
-            ...editData,
-            // simid: id,
-            companyName: item.companyName,
-            // clientName: item.clientName,
-            // IMSI: item.IMSI,
-            // ICCID: item.ICCID,
-            // location: item.location,
-            // connectionType: item.connectionType,
-          });
-        }
-      });
+      console.log(company);
+      if (company.companyId == id) {
+        setEditData({
+          ...editData,
+          companyName: company.company,
+        });
+      }
     });
-
-    // console.log(filterSimData);
-    // filterSimData.map((data) => {
-    //   console.log(data);
-    //   setEditData({
-    //     ...editData,
-    //     simid: id,
-    //     companyName: data.companyName,
-    //     clientName: data.clientName,
-    //     IMSI: data.IMSI,
-    //     ICCID: data.ICCID,
-    //     location: data.location,
-    //     connectionType: data.connectionType,
-    //   });
-    // });
   };
 
   const navigate = useNavigate();
@@ -98,7 +77,7 @@ export default function AddSimToExistingCompany(props) {
       IMSI: data.get("IMSI"),
 
       location: data.get("location"),
-      connectionType: data.get("connectionType"),
+      connectionType: editData.connectionType,
       clientName: data.get("clientName"),
     });
 
@@ -110,7 +89,7 @@ export default function AddSimToExistingCompany(props) {
         IMSI: data.get("IMSI"),
 
         location: data.get("location"),
-        connectionType: data.get("connectionType"),
+        connectionType: editData.connectionType,
         clientName: data.get("clientName"),
       })
       .then((response) => {
@@ -147,6 +126,9 @@ export default function AddSimToExistingCompany(props) {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
+                  InputProps={{
+                    readOnly: true,
+                  }}
                   autoComplete="given-name"
                   name="Company Name"
                   required
@@ -204,22 +186,21 @@ export default function AddSimToExistingCompany(props) {
               </Grid>
 
               <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  name="connectionType"
-                  label="connectionType"
-                  type="connectionType"
-                  id="connectionType"
-                  autoComplete="connectionType"
+                <Select
                   value={editData.connectionType}
+                  label="Vendor"
                   onChange={(e) =>
-                    setEditData({
-                      ...editData,
-                      connectionType: e.target.value,
-                    })
+                    setEditData({ ...editData, connectionType: e.target.value })
                   }
-                />
+                  inputProps={{
+                    name: "vendor",
+                    id: "vendor-select",
+                  }}
+                  // onChange={handleChange}
+                >
+                  <MenuItem value="Airtel">Airtel</MenuItem>
+                  <MenuItem value="Jio">Jio</MenuItem>
+                </Select>
               </Grid>
               <Grid item xs={12}>
                 <TextField

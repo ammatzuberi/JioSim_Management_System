@@ -36,10 +36,8 @@ import SimCardIcon from "@mui/icons-material/SimCard";
 const drawerWidth = 240;
 
 function SideBar(props) {
-  const navigate = useNavigate();
   const handleLogout = () => {
-    localStorage.clear();
-    navigate("/login");
+    localStorage.setItem("token", "");
   };
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -90,7 +88,6 @@ function SideBar(props) {
 
         <NavLink
           to="/signup"
-          exact
           className={(navData) =>
             navData.isActive ? classes.active : classes.link
           }

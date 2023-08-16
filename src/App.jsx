@@ -59,7 +59,7 @@ function App() {
         <Routes>
           <Route element={<CollapsableTable />} path="/demo" />
           <Route
-            element={!tokenval ? <Login /> : <Navigate to="/" />}
+            element={!tokenval ? <Login /> : <DataTable />}
             path="/login"
           />
 
@@ -68,7 +68,7 @@ function App() {
             <Route element={<Form />} path="/form" />
             <Route element={<AddSimToExistingCompany />} path="/AddSim/:id" />
             <Route element={<EditForm getSim={simData} />} path="/Edit/:id/" />
-            <Route element={tokenval ? <SignUp /> : <Login />} path="/signup" />
+            <Route element={<SignUp />} path="/signup" />
           </Route>
         </Routes>
       </BrowserRouter>
