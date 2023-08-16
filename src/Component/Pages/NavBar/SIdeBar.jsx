@@ -38,6 +38,7 @@ const drawerWidth = 240;
 function SideBar(props) {
   const handleLogout = () => {
     localStorage.setItem("token", "");
+    window.location.reload();
   };
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);

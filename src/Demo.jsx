@@ -439,7 +439,7 @@ export default function Demo() {
             onChange={handleSearchDropDown}
             style={{ width: "10rem", height: "2.5rem" }}
           >
-            <option value="">--Please Select--</option>
+            <option value="">---Please Select----</option>
             <option value="ICCID">ICCID</option>
             <option value="IMSI">IMSI</option>
             <option value="company">Company Name</option>
@@ -467,7 +467,7 @@ export default function Demo() {
             onClick={handleSearch}
             style={{
               color: "white",
-              backgroundColor: "#33a0ff",
+              backgroundColor: "#3b71ca",
               border: "none",
               borderRadius: "0.25rem",
               padding: "0.5rem 1rem",
@@ -486,7 +486,6 @@ export default function Demo() {
               expanded={expanded === company.companyId}
               onChange={handleChange(company.companyId)}
               sx={{
-                border: "1px solid #ddd",
                 marginBottom: "10px",
                 borderRadius: "5px",
               }}
@@ -496,12 +495,21 @@ export default function Demo() {
                 aria-controls="panel1bh-content"
                 id="panel1bh-header"
                 sx={{
-                  backgroundColor: "#f8f8f8",
+                  backgroundColor: "#fff",
                   borderBottom: "1px solid #ddd",
                   alignItems: "center",
                 }}
               >
-                <Typography sx={{ width: "33%", flexShrink: 0 }}>
+                <Typography
+                  sx={{
+                    width: "33%",
+                    flexShrink: 0,
+                    fontSize: "1rem",
+                    fontWeight: 800,
+                    fontFamily: "courier",
+                    color: "#3b71ca",
+                  }}
+                >
                   {company.company}
                 </Typography>
                 <Typography sx={{ color: "text.secondary" }}>
@@ -511,35 +519,38 @@ export default function Demo() {
                       textDecoration: "none",
                       color: "blue",
                       position: "absolute",
-                      marginRight: "5rem",
                       right: 0,
+                      marginRight: "7rem",
 
-                      color: "#fff",
                       borderRadius: "50px",
                       width: "6.5rem",
                       textAlign: "center",
                       color: "#000",
                       fontSize: "1rem",
+                      color: "#fff",
+                      backgroundColor: "#3b71ca",
                     }}
                   >
                     <span>
-                      <AddIcon /> Add Sim
+                      <AddIcon /> Sim
                     </span>
-                    <Typography
-                      sx={{
-                        width: "33%",
-                        flexShrink: 0,
-                        float: "right",
-                        marginRight: "-2rem",
-                        backgroundColor: "#33a0ff",
-                        borderRadius: "50%",
-                        textAlign: "center",
-                        color: "white",
-                      }}
-                    >
-                      {company.allSims.length}
-                    </Typography>
                   </Link>
+                  <Typography
+                    sx={{
+                      width: "2%",
+                      flexShrink: 0,
+                      marginRight: "4rem",
+                      float: "right",
+                      right: "0",
+                      position: "absolute",
+                      backgroundColor: "#3b71ca",
+                      borderRadius: "50%",
+                      textAlign: "center",
+                      color: "white",
+                    }}
+                  >
+                    {company.allSims.length}
+                  </Typography>
                 </Typography>
               </AccordionSummary>
               <AccordionDetails sx={{ backgroundColor: "#fafafa" }}>
@@ -548,9 +559,12 @@ export default function Demo() {
                     <thead>
                       <tr
                         style={{
-                          backgroundColor:
-                            index % 2 === 0 ? "#ffffff" : "#f5f5f5",
+                          backgroundColor: "#3b71ca",
+
                           textAlign: "center",
+                          fontFamily: "courier",
+                          fontWeight: 900,
+                          color: "white",
                         }}
                       >
                         <th>Client Name</th>
@@ -570,6 +584,7 @@ export default function Demo() {
                           style={{
                             backgroundColor: "#fff",
                             textAlign: "center",
+                            fontFamily: "sans-serif",
                           }}
                         >
                           <td>{sim.clientName}</td>

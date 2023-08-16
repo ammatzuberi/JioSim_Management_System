@@ -46,41 +46,6 @@ export default function DataTable(props) {
   }, []);
   console.log(simData);
 
-  const navigate = useNavigate();
-
-  var columns = [
-    {
-      label: "Company Name",
-      field: "companyName",
-    },
-    {
-      label: "Client Name",
-      field: "clientName",
-    },
-
-    {
-      label: "ICCID",
-      field: "ICCID",
-    },
-    {
-      label: "IMSI",
-      field: "IMSI",
-    },
-    {
-      label: "Location",
-      field: "location",
-    },
-
-    {
-      label: "Edit",
-      field: "Edit",
-    },
-    {
-      label: "Delete",
-      field: "Delete",
-    },
-  ];
-
   React.useEffect(() => {}, [props]);
 
   const rows = simData.map((row, index) => ({
@@ -142,10 +107,6 @@ export default function DataTable(props) {
   //       </>
   //     ),
   //   })) || [];
-  // const tableData = {
-  //   columns: [...columns, { label: "", field: "actions" }],
-  //   rows,
-  // };
 
   return (
     <>
@@ -168,7 +129,7 @@ export default function DataTable(props) {
             <button
               style={{
                 color: "white",
-                backgroundColor: "#33a0ff",
+                backgroundColor: "#3b71ca",
                 border: "none",
                 borderRadius: "0.25rem",
                 padding: "0.5rem 1rem",
@@ -176,7 +137,7 @@ export default function DataTable(props) {
               }}
             >
               <AddIcon />
-              Add New Company Sim
+              Add New Company
             </button>
           </Link>
         </Grid>
