@@ -59,7 +59,7 @@ function App() {
         <Routes>
           <Route element={<CollapsableTable />} path="/demo" />
           <Route
-            element={!tokenval ? <Login /> : <DataTable />}
+            element={!tokenval ? <Login /> : <Navigate to="/" />}
             path="/login"
           />
 

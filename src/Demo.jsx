@@ -352,7 +352,7 @@ export default function Demo() {
   const [accordionOpenStates, setAccordionOpenStates] = React.useState({});
 
   const getSimData = async () => {
-    const url = "https://sim-ostk.onrender.com/ene/sim/all";
+    const url = "http://localhost:8085/ene/sim/All";
 
     try {
       const response = await axios.get(url, { withCredentials: "include" });
