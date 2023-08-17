@@ -50,7 +50,15 @@ function SideBar(props) {
   const drawer = (
     <div>
       <div className={classes.title}>
-        <h1 className={classes.titleName}>Jio Sim</h1>
+        <img
+          src="https://www.enggenv.com/img/EE-LOGO-websiteEdition3.1.png"
+          alt=""
+          style={{
+            width: "10rem",
+            fontWeight: 800,
+            color: "#fff",
+          }}
+        />
       </div>
       <Divider />
       <List>
@@ -158,7 +166,7 @@ function SideBar(props) {
             sx={{
               display: "flex",
 
-              backgroundColor: "#ffff",
+              backgroundColor: "#ffff !important",
               zIndex: "1190",
               backdropFilter: blur("6px"),
               border: "1px solid #d9d9e3",
@@ -188,6 +196,7 @@ function SideBar(props) {
               component="div"
               sx={{
                 color: "black",
+                fontWeight: 700,
                 fontSize: {
                   lg: 20,
                   md: 20,

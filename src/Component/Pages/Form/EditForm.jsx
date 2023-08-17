@@ -13,7 +13,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
-import { Select, MenuItem } from "@mui/material";
+import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 
 const defaultTheme = createTheme();
 
@@ -89,6 +89,7 @@ export default function EditForm(props) {
     });
 
     const url = `http://localhost:8085/ene/sim/update/${id}`;
+    // const url = `https://sim-ostk.onrender.com/ene/sim/update/${id}`;
     axios
       .patch(url, {
         companyName: data.get("Company Name"),
@@ -126,8 +127,8 @@ export default function EditForm(props) {
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <AddCircleIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
-            Edit Sim Record
+          <Typography component="h1" variant="h5" sx={{ marginBottom: "1rem" }}>
+            Edit Sim Record For {editData.companyName}
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit}>
             <Grid container spacing={2}>
@@ -190,21 +191,40 @@ export default function EditForm(props) {
               </Grid>
 
               <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Vendor</InputLabel>
+
+                  <Select
+                    value={editData.connectionType}
+                    label="Vendor"
+                    fullWidth
+                    onChange={(e) =>
+                      setEditData({
+                        ...editData,
+                        connectionType: e.target.value,
+                      })
+                    }
+                  >
+                    <MenuItem value="Airtel">Airtel</MenuItem>
+                    <MenuItem value="Jio">Jio</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+
+              {/* <Grid item xs={12} sm={6}>
                 <Select
                   value={editData.connectionType}
                   label="Vendor"
+                  fullWidth
                   onChange={(e) =>
                     setEditData({ ...editData, connectionType: e.target.value })
                   }
-                  inputProps={{
-                    name: "vendor",
-                    id: "vendor-select",
-                  }}
                 >
                   <MenuItem value="Airtel">Airtel</MenuItem>
                   <MenuItem value="Jio">Jio</MenuItem>
                 </Select>
-              </Grid>
+              </Grid> */}
+
               <Grid item xs={12}>
                 <TextField
                   required

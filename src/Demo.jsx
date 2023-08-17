@@ -340,6 +340,7 @@ import Swal from "sweetalert2/dist/sweetalert2.js";
 
 import AddIcon from "@mui/icons-material/Add";
 import { Grid } from "@mui/material";
+import SimCardIcon from "@mui/icons-material/SimCard";
 
 export default function Demo() {
   const [expanded, setExpanded] = React.useState(false);
@@ -353,6 +354,7 @@ export default function Demo() {
 
   const getSimData = async () => {
     const url = "http://localhost:8085/ene/sim/All";
+    // const url = "https://sim-ostk.onrender.com/ene/sim/all";
 
     try {
       const response = await axios.get(url, { withCredentials: "include" });
@@ -375,6 +377,7 @@ export default function Demo() {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
+        // const url = `https://sim-ostk.onrender.com/ene/sim/remove/${id}`;
         const url = `http://localhost:8085/ene/sim/remove/${id}`;
         axios
           .delete(url)
@@ -404,9 +407,10 @@ export default function Demo() {
     console.log(searchTerm);
     console.log(searchVal);
 
-    const searchResult = await axios.get(
-      `http://localhost:8085/ene/sim/${searchTerm}/${searchVal}`
-    );
+    const url = `http://localhost:8085/ene/sim/${searchTerm}/${searchVal}`;
+    // const url = `https://sim-ostk.onrender.com/ene/sim/${searchTerm}/${searchVal}`;
+
+    const searchResult = await axios.get(url);
     console.log(searchResult.data);
     let data = [];
     data.push(searchResult.data);
@@ -433,13 +437,22 @@ export default function Demo() {
 
   return (
     <>
-      <Grid container justifyContent="space-between" sx={{ padding: ".5rem" }}>
-        <Grid item>
+      <Grid
+        container
+        justifyContent="space-between"
+        sx={{ padding: ".5rem", scrollbarColor: "blue" }}
+      >
+        <Grid item xs={12} sm={6}>
           <select
             onChange={handleSearchDropDown}
-            style={{ width: "10rem", height: "2.5rem" }}
+            style={{
+              width: "10rem",
+              height: "2.5rem",
+              textAlign: "center",
+              borderColor: "#3b4a64",
+            }}
           >
-            <option value="">---Please Select----</option>
+            <option value="">All Category</option>
             <option value="ICCID">ICCID</option>
             <option value="IMSI">IMSI</option>
             <option value="company">Company Name</option>
@@ -467,11 +480,12 @@ export default function Demo() {
             onClick={handleSearch}
             style={{
               color: "white",
-              backgroundColor: "#3b71ca",
+              backgroundColor: "#3b4a64",
               border: "none",
               borderRadius: "0.25rem",
               padding: "0.5rem 1rem",
               cursor: "pointer",
+              boxShadow: "rgba(32, 101, 209, 0.24) 0px 8px 16px 0px",
             }}
           >
             Search
@@ -481,23 +495,33 @@ export default function Demo() {
 
       {simData.map((company, index) => {
         return (
-          <div>
+          <Grid item xs={12} sm={6} sx={{ overflowY: "auto" }}>
             <Accordion
               expanded={expanded === company.companyId}
               onChange={handleChange(company.companyId)}
               sx={{
                 marginBottom: "10px",
-                borderRadius: "5px",
               }}
             >
               <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
+                expandIcon={
+                  <ExpandMoreIcon
+                    sx={{
+                      backgroundColor: "#3b4a64",
+                      color: "#fff",
+                      borderRadius: "50%",
+                      boxShadow: "rgba(32, 101, 209, 0.24) 0px 8px 16px 0px",
+                    }}
+                  />
+                }
                 aria-controls="panel1bh-content"
                 id="panel1bh-header"
                 sx={{
-                  backgroundColor: "#fff",
-                  borderBottom: "1px solid #ddd",
+                  // backgroundColor: "#f8f9fa",
+                  boxShadow: "0 2px 5px 1px rgba(64,60,67,.16)",
+
                   alignItems: "center",
+                  borderRadius: "10%",
                 }}
               >
                 <Typography
@@ -505,9 +529,9 @@ export default function Demo() {
                     width: "33%",
                     flexShrink: 0,
                     fontSize: "1rem",
-                    fontWeight: 800,
+                    fontWeight: 700,
                     fontFamily: "courier",
-                    color: "#3b71ca",
+                    color: "#3b4a64",
                   }}
                 >
                   {company.company}
@@ -517,6 +541,7 @@ export default function Demo() {
                     to={"/AddSim/" + company.companyId}
                     style={{
                       textDecoration: "none",
+                      // width: "5%",
                       color: "blue",
                       position: "absolute",
                       right: 0,
@@ -528,25 +553,26 @@ export default function Demo() {
                       color: "#000",
                       fontSize: "1rem",
                       color: "#fff",
-                      backgroundColor: "#3b71ca",
+                      backgroundColor: "#3b4a64",
+                      boxShadow: "rgba(32, 101, 209, 0.24) 0px 8px 16px 0px",
                     }}
                   >
-                    <span>
-                      <AddIcon /> Sim
-                    </span>
+                    <AddIcon /> SIM
+                    {/* <SimCardIcon /> */}
                   </Link>
                   <Typography
                     sx={{
-                      width: "2%",
+                      width: "3%",
                       flexShrink: 0,
                       marginRight: "4rem",
                       float: "right",
                       right: "0",
                       position: "absolute",
-                      backgroundColor: "#3b71ca",
+                      backgroundColor: "#3b4a64",
                       borderRadius: "50%",
                       textAlign: "center",
                       color: "white",
+                      boxShadow: "rgba(32, 101, 209, 0.24) 0px 8px 16px 0px",
                     }}
                   >
                     {company.allSims.length}
@@ -555,11 +581,17 @@ export default function Demo() {
               </AccordionSummary>
               <AccordionDetails sx={{ backgroundColor: "#fafafa" }}>
                 <Typography>
-                  <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                  <table
+                    style={{
+                      width: "100%",
+                      borderCollapse: "collapse",
+                      scrollY: "auto",
+                    }}
+                  >
                     <thead>
                       <tr
                         style={{
-                          backgroundColor: "#3b71ca",
+                          backgroundColor: "#3b4a64",
 
                           textAlign: "center",
                           fontFamily: "courier",
@@ -624,7 +656,7 @@ export default function Demo() {
                 </Typography>
               </AccordionDetails>
             </Accordion>
-          </div>
+          </Grid>
         );
       })}
     </>

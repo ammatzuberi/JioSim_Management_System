@@ -12,7 +12,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Select, MenuItem } from "@mui/material";
+import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import axios from "axios";
 
 const defaultTheme = createTheme();
@@ -33,6 +33,7 @@ export default function AddSimToExistingCompany(props) {
   React.useEffect(() => {
     const getSimData = async () => {
       const url = "http://localhost:8085/ene/sim/All/";
+      // const url = "https://sim-ostk.onrender.com/ene/sim/all";
 
       try {
         const response = await axios.get(url);
@@ -82,6 +83,7 @@ export default function AddSimToExistingCompany(props) {
     });
 
     const url = "http://localhost:8085/ene/sim/create";
+    // const url = "https://sim-ostk.onrender.com/ene/sim/create";
     axios
       .post(url, {
         companyName: data.get("Company Name"),
@@ -119,8 +121,11 @@ export default function AddSimToExistingCompany(props) {
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <AddCircleIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
-            Edit Sim Record
+          <Typography component="h1" variant="h5" sx={{ marginBottom: "1rem" }}>
+            Add more Sim for{" "}
+            <span style={{ color: "#1565c0", fontWeight: 700 }}>
+              {editData.companyName}
+            </span>
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit}>
             <Grid container spacing={2}>
@@ -186,9 +191,42 @@ export default function AddSimToExistingCompany(props) {
               </Grid>
 
               <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Vendor</InputLabel>
+
+                  <Select
+                    placeholder="Vendor"
+                    name="vendor"
+                    id="vendor"
+                    fullWidth
+                    label="IMSI"
+                    value={editData.connectionType}
+                    onChange={(e) =>
+                      setEditData({
+                        ...editData,
+                        connectionType: e.target.value,
+                      })
+                    }
+                    inputProps={{
+                      name: "vendor",
+                      id: "vendor-select",
+                    }}
+                    // onChange={handleChange}
+                  >
+                    <MenuItem value="Airtel">Airtel</MenuItem>
+                    <MenuItem value="Jio">Jio</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              {/* 
+              <Grid item xs={12} sm={6}>
                 <Select
+                  placeholder="Vendor"
+                  name="vendor"
+                  id="vendor"
+                  fullWidth
+                  label="IMSI"
                   value={editData.connectionType}
-                  label="Vendor"
                   onChange={(e) =>
                     setEditData({ ...editData, connectionType: e.target.value })
                   }
@@ -201,7 +239,7 @@ export default function AddSimToExistingCompany(props) {
                   <MenuItem value="Airtel">Airtel</MenuItem>
                   <MenuItem value="Jio">Jio</MenuItem>
                 </Select>
-              </Grid>
+              </Grid> */}
               <Grid item xs={12}>
                 <TextField
                   required

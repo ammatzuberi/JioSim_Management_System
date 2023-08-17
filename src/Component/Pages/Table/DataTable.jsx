@@ -20,7 +20,8 @@ export default function DataTable(props) {
   const [expandedRow, setExpandedRow] = React.useState(null);
 
   const getSimData = async () => {
-    const url = "http://localhost:8085/ene/sim/All/";
+    // const url = "http://localhost:8085/ene/sim/All/";
+    // const url = "https://sim-ostk.onrender.com/ene/sim/all";
 
     try {
       const response = await axios.get(url, { withCredentials: "include" });
@@ -110,11 +111,16 @@ export default function DataTable(props) {
 
   return (
     <>
-      <Grid container justifyContent="space-between" marginBottom="1rem">
+      <Grid
+        container
+        justifyContent="space-between"
+        marginBottom="1rem"
+        padding="1rem"
+      >
         <Grid item>
           <Typography
             sx={{
-              color: "#111927",
+              color: "#3b4a64",
               fontWeight: 800,
               fontSize: 30,
               fontFamily: " Plus Jakarta Sans sans-serif",
@@ -129,11 +135,12 @@ export default function DataTable(props) {
             <button
               style={{
                 color: "white",
-                backgroundColor: "#3b71ca",
+                backgroundColor: "#3b4a64",
                 border: "none",
                 borderRadius: "0.25rem",
                 padding: "0.5rem 1rem",
                 cursor: "pointer",
+                boxShadow: "rgba(32, 101, 209, 0.24) 0px 8px 16px 0px",
               }}
             >
               <AddIcon />
@@ -145,7 +152,14 @@ export default function DataTable(props) {
 
       {/* <SearchTable /> */}
 
-      <Grid item sx={{ backgroundColor: "f3f3f9", padding: "2rem" }}>
+      <Grid
+        item
+        sx={{
+          backgroundColor: "f3f3f9",
+          padding: "2rem",
+          boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
+        }}
+      >
         <div className={classes.tableContainer}>
           <Demo />
         </div>

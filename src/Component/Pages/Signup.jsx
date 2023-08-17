@@ -13,6 +13,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
+import Swal from "sweetalert2/dist/sweetalert2.js";
+import "sweetalert2/src/sweetalert2.scss";
 
 function Copyright(props) {
   return (
@@ -44,16 +46,30 @@ export default function SignUp() {
       password: data.get("password"),
       role: data.get("role"),
     });
-    const url = "http://localhost:8085/ene/sim/auth/register/";
+    // const url = "http://localhost:8085/ene/sim/auth/register/";
+    const url = "https://sim-ostk.onrender.com/ene/sim/auth/register/";
     try {
-      axios.post(url, {
-        userName: data.get("userName"),
-        email: data.get("email"),
-        password: data.get("password"),
-        role: data.get("role"),
-      });
+      axios
+        .post(url, {
+          userName: data.get("userName"),
+          email: data.get("email"),
+          password: data.get("password"),
+          role: data.get("role"),
+        })
+        .catch((error) => {
+          const { msg } = error.response.data;
+          Swal.fire({
+            icon: "error",
+            title: msg,
+          });
+        });
     } catch (error) {
-      console.log(error);
+      // console.log(error.response.data);
+      const { msg } = error.response.data;
+      Swal.fire({
+        icon: "error",
+        title: msg,
+      });
     }
   };
 
