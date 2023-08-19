@@ -22,6 +22,7 @@ export default function DataTable(props) {
   const getSimData = async () => {
     // const url = "http://localhost:8085/ene/sim/All/";
     // const url = "https://sim-ostk.onrender.com/ene/sim/all";
+    const url = "https://app.enggenv.com/ene/sim/all";
 
     try {
       const response = await axios.get(url, { withCredentials: "include" });
@@ -117,7 +118,7 @@ export default function DataTable(props) {
         marginBottom="1rem"
         padding="1rem"
       >
-        <Grid item>
+        <Grid item sx>
           <Typography
             sx={{
               color: "#3b4a64",
@@ -127,7 +128,7 @@ export default function DataTable(props) {
               marginLeft: ".5rem",
             }}
           >
-            Sim Dashboard
+            SIM DASHBOARD
           </Typography>
         </Grid>
         <Grid item>

@@ -47,7 +47,8 @@ export default function SignUp() {
       role: data.get("role"),
     });
     // const url = "http://localhost:8085/ene/sim/auth/register/";
-    const url = "https://sim-ostk.onrender.com/ene/sim/auth/register/";
+    // const url = "https://sim-ostk.onrender.com/ene/sim/auth/register/";
+    const url = "https://app.enggenv.com/ene/sim/auth/register/";
     try {
       axios
         .post(url, {

@@ -32,8 +32,9 @@ export default function AddSimToExistingCompany(props) {
   });
   React.useEffect(() => {
     const getSimData = async () => {
-      const url = "http://localhost:8085/ene/sim/All/";
+      // const url = "http://localhost:8085/ene/sim/All/";
       // const url = "https://sim-ostk.onrender.com/ene/sim/all";
+      const url = "https://app.enggenv.com/ene/sim/all";
 
       try {
         const response = await axios.get(url);
@@ -54,6 +55,7 @@ export default function AddSimToExistingCompany(props) {
   }, [simData]);
 
   const params = useParams();
+
   const gettingData = async () => {
     await simData?.map((company) => {
       console.log(company);
@@ -82,18 +84,26 @@ export default function AddSimToExistingCompany(props) {
       clientName: data.get("clientName"),
     });
 
-    const url = "http://localhost:8085/ene/sim/create";
+    // const url = "http://localhost:8085/ene/sim/create";
     // const url = "https://sim-ostk.onrender.com/ene/sim/create";
+    const url = "https://app.enggenv.com/ene/sim/create";
     axios
-      .post(url, {
-        companyName: data.get("Company Name"),
-        ICCID: data.get("ICCID"),
-        IMSI: data.get("IMSI"),
+      .post(
+        url,
+        {
+          companyName: data.get("Company Name"),
+          ICCID: data.get("ICCID"),
+          IMSI: data.get("IMSI"),
 
-        location: data.get("location"),
-        connectionType: editData.connectionType,
-        clientName: data.get("clientName"),
-      })
+          location: data.get("location"),
+          connectionType: editData.connectionType,
+          clientName: data.get("clientName"),
+        },
+        {
+          withCredentials: "includes",
+          connectionType: "application/json",
+        }
+      )
       .then((response) => {
         navigate("/");
 
@@ -121,8 +131,13 @@ export default function AddSimToExistingCompany(props) {
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <AddCircleIcon />
           </Avatar>
-          <Typography component="h1" variant="h5" sx={{ marginBottom: "1rem" }}>
-            Add more Sim for{" "}
+          <Typography
+            maxWidth="xs"
+            component="h1"
+            variant="h5"
+            sx={{ marginBottom: "1rem", maxWidth: "100%" }}
+          >
+            Add SIM for{" "}
             <span style={{ color: "#1565c0", fontWeight: 700 }}>
               {editData.companyName}
             </span>
@@ -153,7 +168,7 @@ export default function AddSimToExistingCompany(props) {
                   name="clientName"
                   required
                   fullWidth
-                  id="clientName"
+                  id="Client Name"
                   label="clientName"
                   value={editData.clientName}
                   onChange={(e) =>
@@ -207,10 +222,7 @@ export default function AddSimToExistingCompany(props) {
                         connectionType: e.target.value,
                       })
                     }
-                    inputProps={{
-                      name: "vendor",
-                      id: "vendor-select",
-                    }}
+
                     // onChange={handleChange}
                   >
                     <MenuItem value="Airtel">Airtel</MenuItem>
@@ -245,7 +257,7 @@ export default function AddSimToExistingCompany(props) {
                   required
                   fullWidth
                   name="location"
-                  label="location"
+                  label="Location"
                   type="location"
                   id="location"
                   autoComplete="location"

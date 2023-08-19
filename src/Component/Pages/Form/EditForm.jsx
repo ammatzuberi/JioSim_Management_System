@@ -21,8 +21,11 @@ export default function EditForm(props) {
   const [simData, setSimData] = React.useState("");
 
   const { id } = useParams();
+  const { _id } = useParams();
+  console.log(id);
+
   const [editData, setEditData] = React.useState({
-    id: id,
+    id: "",
     companyName: "",
     clientName: "",
     IMSI: "",
@@ -32,16 +35,14 @@ export default function EditForm(props) {
   });
   React.useEffect(() => {
     const getSimData = async () => {
-      const url = "http://localhost:8085/ene/sim/All/";
+      // const url = "http://localhost:8085/ene/sim/All/";
+      const url = "https://app.enggenv.com/ene/sim/all";
 
       try {
         const response = await axios.get(url);
         const SimResponse = response.data;
 
-        console.log(SimResponse);
-
         setSimData(SimResponse);
-        console.log(simData);
       } catch (error) {
         console.log("Error While Fetching Data", error);
       }
@@ -52,14 +53,15 @@ export default function EditForm(props) {
     gettingData();
   }, [simData]);
 
-  const params = useParams();
+  console.log(id);
   const gettingData = async () => {
     await simData?.map((company) => {
       company?.allSims?.map((item) => {
-        if (item.idsim == id) {
+        console.log(item);
+        if (item.idSIM == id) {
           return setEditData({
             ...editData,
-            simid: id,
+            idSIM: id,
             companyName: item.companyName,
             clientName: item.clientName,
             IMSI: item.IMSI,
@@ -83,23 +85,32 @@ export default function EditForm(props) {
       ICCID: data.get("ICCID"),
       IMSI: data.get("IMSI"),
 
-      location: data.get("location"),
-      connectionType: data.get("connectionType"),
+      location: data.get("Location"),
+      connectionType: editData.connectionType,
       clientName: data.get("clientName"),
     });
 
-    const url = `http://localhost:8085/ene/sim/update/${id}`;
+    // const url = `http://localhost:8085/ene/sim/update/${id}`;
     // const url = `https://sim-ostk.onrender.com/ene/sim/update/${id}`;
-    axios
-      .patch(url, {
-        companyName: data.get("Company Name"),
-        ICCID: data.get("ICCID"),
-        IMSI: data.get("IMSI"),
 
-        location: data.get("location"),
-        connectionType: editData.connectionType,
-        clientName: data.get("clientName"),
-      })
+    const url = `https://app.enggenv.com/ene/sim/update/${id}`;
+    axios
+      .patch(
+        url,
+
+        {
+          companyName: data.get("Company Name"),
+          ICCID: data.get("ICCID"),
+          IMSI: data.get("IMSI"),
+
+          location: data.get("Location"),
+          connectionType: editData.connectionType,
+          clientName: data.get("clientName"),
+        },
+        {
+          withCredentials: "include",
+        }
+      )
       .then((response) => {
         navigate("/");
 
@@ -128,7 +139,7 @@ export default function EditForm(props) {
             <AddCircleIcon />
           </Avatar>
           <Typography component="h1" variant="h5" sx={{ marginBottom: "1rem" }}>
-            Edit Sim Record For {editData.companyName}
+            Edit SIM Record For {editData.companyName}
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit}>
             <Grid container spacing={2}>
@@ -153,7 +164,7 @@ export default function EditForm(props) {
                   name="clientName"
                   required
                   fullWidth
-                  id="clientName"
+                  id="Client Name"
                   label="clientName"
                   value={editData.clientName}
                   onChange={(e) =>
@@ -229,11 +240,11 @@ export default function EditForm(props) {
                 <TextField
                   required
                   fullWidth
-                  name="location"
-                  label="location"
-                  type="location"
-                  id="location"
-                  autoComplete="location"
+                  name="Location"
+                  label="Location"
+                  type="Location"
+                  id="Location"
+                  autoComplete="Location"
                   value={editData.location}
                   onChange={(e) =>
                     setEditData({ ...editData, location: e.target.value })

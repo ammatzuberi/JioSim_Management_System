@@ -44,7 +44,7 @@ function SideBar(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+    setMobileOpen(mobileOpen);
   };
 
   const drawer = (
@@ -90,7 +90,7 @@ function SideBar(props) {
               <ListItemIcon></ListItemIcon>
               <SimCardIcon className={classes.icons} />
 
-              <ListItemText> Add Sim</ListItemText>
+              <ListItemText> Add SIM</ListItemText>
             </ListItemButton>
           </ListItem>
         </NavLink>
@@ -184,7 +184,7 @@ function SideBar(props) {
               sx={{
                 mr: 2,
                 display: { sm: "none" },
-                color: "red",
+                color: "#1c2536",
               }}
             >
               <MenuIcon />
@@ -195,8 +195,8 @@ function SideBar(props) {
               noWrap
               component="div"
               sx={{
-                color: "black",
-                fontWeight: 700,
+                color: "#242c3c",
+                fontWeight: 600,
                 fontSize: {
                   lg: 20,
                   md: 20,
@@ -228,6 +228,7 @@ function SideBar(props) {
               "& .MuiDrawer-paper": {
                 boxSizing: "border-box",
                 width: drawerWidth,
+                maxHeight: "calc(100vh - 16px)",
               },
             }}
           >

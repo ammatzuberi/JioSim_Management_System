@@ -27,30 +27,41 @@ export default function Form() {
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
     console.log(event.target.value.toString());
+    console.log(event.target.value);
   };
   const [errorFound, setErrorFound] = React.useState("");
   const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // console.log(data);
+    console.log({
+      companyName: data.get("Company Name"),
+      ICCID: data.get("ICCID"),
+      IMSI: data.get("IMSI"),
+
+      location: data.get("Location"),
+      connectionType: selectedValue,
+      clientName: data.get("Client Name"),
+    });
 
     // const url = "http://localhost:8085/ene/sim/create";
-    const url = "https://sim-ostk.onrender.com/ene/sim/create";
+    // const url = "https://sim-ostk.onrender.com/ene/sim/create";
+    const url = "https://app.enggenv.com/ene/sim/create";
+
     axios
       .post(url, {
         companyName: data.get("Company Name"),
         ICCID: data.get("ICCID"),
         IMSI: data.get("IMSI"),
 
-        location: data.get("location"),
+        location: data.get("Location"),
         connectionType: selectedValue,
-        clientName: data.get("clientName"),
+        clientName: data.get("Client Name"),
       })
       .then((response) => {
-        if (response.statusText == "Created") {
+        console.log(response);
+        if (response.status == 201) {
           navigate("/");
-        } else {
         }
       })
       .catch((error) => {
@@ -81,7 +92,7 @@ export default function Form() {
             <AddCircleIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Add New Sim
+            Add New SIM
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit}>
             <Grid container spacing={2}>
@@ -99,7 +110,7 @@ export default function Form() {
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="clientName"
-                  name="clientName"
+                  name="Client Name"
                   required
                   fullWidth
                   id="clientName"
@@ -149,8 +160,8 @@ export default function Form() {
                 <TextField
                   required
                   fullWidth
-                  name="location"
-                  label="location"
+                  name="Location"
+                  label="Location"
                   type="location"
                   id="location"
                   autoComplete="location"

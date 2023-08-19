@@ -30,7 +30,8 @@ function App() {
   const [simData, setSimData] = useState([]);
   const [tokenval, setTokenVal] = useState("");
   const getSimData = async () => {
-    const url = "http://localhost:8085/ene/sim/All/";
+    // const url = "http://localhost:8085/ene/sim/All/";
+    const url = "https://app.enggenv.com/ene/sim/all";
 
     try {
       const response = await axios.get(url, {
