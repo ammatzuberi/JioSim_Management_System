@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DataGrid } from "@mui/x-data-grid";
+
 import { SearchTable } from "./Search/Search";
 import { Accordion, Button, Grid, Typography, Card } from "@mui/material";
 import { Link, Navigate, useNavigate } from "react-router-dom";

@@ -256,9 +256,9 @@ export default function Demo() {
                       borderRadius: "50px",
                       width: "6.5rem",
                       textAlign: "center",
-                      color: "#000",
+
                       fontSize: "1rem",
-                      color: "#fff",
+
                       backgroundColor: "#3b4a64",
                       boxShadow: "rgba(32, 101, 209, 0.24) 0px 8px 16px 0px",
                     }}
