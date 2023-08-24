@@ -36,15 +36,19 @@ import SimCardIcon from "@mui/icons-material/SimCard";
 const drawerWidth = 240;
 
 function SideBar(props) {
+  const navigate = useNavigate();
   const handleLogout = () => {
-    localStorage.setItem("token", "");
-    window.location.reload();
+    // localStorage.setItem("token", "");
+    localStorage.removeItem("token");
+    navigate("/login");
+
+    // window.location.reload();
   };
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
-    setMobileOpen(mobileOpen);
+    setMobileOpen(!mobileOpen);
   };
 
   const drawer = (
@@ -63,7 +67,7 @@ function SideBar(props) {
       <Divider />
       <List>
         <NavLink
-          onClick={handleDrawerToggle}
+          onClick={() => setMobileOpen(false)}
           to="/"
           className={(navData) =>
             navData.isActive ? classes.active : classes.link
@@ -110,21 +114,14 @@ function SideBar(props) {
             </ListItemButton>
           </ListItem>
         </NavLink>
-        <NavLink
-          onClick={handleLogout}
-          to="/login"
-          className={(navData) =>
-            navData.isActive ? classes.active : classes.link
-          }
-        >
-          <ListItem disablePadding className={classes.listItem}>
-            <ListItemButton>
-              <ListItemIcon></ListItemIcon>
-              <LogoutIcon className={classes.icons} /> Logout
-              <ListItemText></ListItemText>
-            </ListItemButton>
-          </ListItem>
-        </NavLink>
+
+        <ListItem disablePadding className={classes.listItem}>
+          <ListItemButton onClick={handleLogout}>
+            <ListItemIcon></ListItemIcon>
+            <LogoutIcon className={classes.icons} /> Logout
+            <ListItemText></ListItemText>
+          </ListItemButton>
+        </ListItem>
       </List>
       <Divider />
     </div>

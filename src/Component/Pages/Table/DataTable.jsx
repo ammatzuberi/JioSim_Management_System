@@ -20,9 +20,9 @@ export default function DataTable(props) {
   const [expandedRow, setExpandedRow] = React.useState(null);
 
   const getSimData = async () => {
-    // const url = "http://localhost:8085/ene/sim/All/";
+    const url = "http://localhost:8085/ene/sim/All/";
     // const url = "https://sim-ostk.onrender.com/ene/sim/all";
-    const url = "https://app.enggenv.com/ene/sim/all";
+    // const url = "https://app.enggenv.com/ene/sim/all";
 
     try {
       const response = await axios.get(url, { withCredentials: "include" });

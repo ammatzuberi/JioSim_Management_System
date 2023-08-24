@@ -7,8 +7,10 @@ import { Box, Toolbar } from "@mui/material";
 
 export default function ProtectedRoute(props) {
   const drawerWidth = 240;
+  const token = localStorage.getItem("token")
+    ? localStorage.getItem("token")
+    : "";
 
-  const token = localStorage.getItem("token");
   return token ? (
     <>
       <SideBar />
@@ -27,6 +29,6 @@ export default function ProtectedRoute(props) {
       </Box>
     </>
   ) : (
-    <Navigate to="/login" />
+    <Navigate to="/login" replace={true} />
   );
 }

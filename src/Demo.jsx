@@ -28,22 +28,38 @@ export default function Demo() {
   const [accordionOpenStates, setAccordionOpenStates] = React.useState({});
   const [searchTerm, setSearchTerm] = React.useState("");
   const [searchVal, setSearchValue] = React.useState("");
+  const [pageNo, setPageNo] = React.useState(1);
+  const [pageLimit, setPageLimit] = React.useState(10);
+  const [isSearching, setIsSearching] = React.useState(false);
+  const [hasData, setHasData] = React.useState(false);
 
   const getSimData = async () => {
     // const url = "http://localhost:8085/ene/sim/All";
     // const url = "https://sim-ostk.onrender.com/ene/sim/all";
-    const url = "https://app.enggenv.com/ene/sim/all";
+    // const url = "https://app.enggenv.com/ene/sim/all";
+    // const url = "http://localhost:8085/ene/sim/All/?page=1&limit=10";
+    const url = `http://localhost:8085/ene/sim/All/?page=${pageNo}&limit=${pageLimit}`;
 
     try {
       const response = await axios.get(url, { withCredentials: "include" });
       setSimData(response.data);
+
+      if (response.data.length === 1) {
+        setHasData(false);
+      } else {
+        setHasData(true);
+      }
     } catch (error) {
       console.log("Error While Fetching Data", error);
     }
   };
   React.useEffect(() => {
     getSimData();
-  }, []);
+    if (setSearchTerm === "") {
+      getSimData();
+    }
+  }, [pageNo, pageLimit, setSearchTerm]);
+
   const handleDelete = async (id) => {
     console.log(id);
     Swal.fire({
@@ -87,8 +103,8 @@ export default function Demo() {
     console.log(searchTerm);
     console.log(searchVal);
 
-    // const url = `http://localhost:8085/ene/sim/${searchTerm}/${searchVal}`;
-    const url = `https://app.enggenv.com/ene/sim/${searchTerm}/${searchVal}`;
+    const url = `http://localhost:8085/ene/sim/${searchTerm}/${searchVal}`;
+    // const url = `https://app.enggenv.com/ene/sim/${searchTerm}/${searchVal}`;
     // const url = `https://sim-ostk.onrender.com/ene/sim/${searchTerm}/${searchVal}`;
 
     const searchResult = await axios.get(url).catch((error) => {
@@ -102,6 +118,11 @@ export default function Demo() {
     });
 
     console.log(searchResult.data);
+    if (searchResult.data) {
+      setIsSearching(true);
+    } else {
+      setIsSearching(false);
+    }
 
     searchResult.data.map((item) => {
       console.log(item);
@@ -117,24 +138,30 @@ export default function Demo() {
     let data = [];
     data.push(searchResult.data);
 
-    setSimData(searchResult.data);
+    // setSimData(searchResult.data);
+    const initialData = searchResult.data;
     // setIsOpen(isOpen);
+    const updatedData = initialData.map((item) => {
+      const updatedItem = { ...item };
+      updatedItem.company = updatedItem.companyName;
+      delete updatedItem.companyName;
+
+      return updatedItem;
+    });
+    console.log(updatedData);
+    setSimData(updatedData);
   };
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
+  const handlePageChange = (newPage) => {
+    setPageNo(newPage);
   };
 
   const handleSearchDropDown = (e) => {
     setSearchTerm(e.target.value);
-    console.log(e.target.value);
   };
   const HandleSearchVal = (e) => {
-    // setSearchTerm(e.target.value);
     setSearchValue(e.target.value);
   };
-
-  const [currentPage, setCurrentPage] = React.useState(1);
 
   return (
     <>
@@ -193,7 +220,6 @@ export default function Demo() {
           </button>
         </Grid>
       </Grid>
-
       {simData.map((company, index) => {
         return (
           <Grid
@@ -248,7 +274,7 @@ export default function Demo() {
                     style={{
                       textDecoration: "none",
                       // width: "5%",
-                      color: "blue",
+                      color: "#fff",
                       position: "absolute",
                       right: 0,
                       marginRight: "7rem",
@@ -384,9 +410,48 @@ export default function Demo() {
                 </Typography>
               </AccordionDetails>
             </Accordion>
+            {/* Pagination controls */}
           </Grid>
         );
       })}
+
+      {!isSearching && (
+        <div
+          style={{
+            display: "flex",
+            alignContent: "center",
+            justifyContent: "center",
+          }}
+        >
+          <button
+            onClick={() => handlePageChange(pageNo - 1)}
+            disabled={pageNo === 1}
+            style={{
+              backgroundColor: "#3b4a64",
+              boxShadow: "rgba(32, 101, 209, 0.24) 0px 8px 16px 0px",
+              color: "white",
+              border: "none",
+              width: "5rem",
+            }}
+          >
+            Previous
+          </button>
+          <span style={{ padding: ".5rem" }}>Page {pageNo}</span>
+          <button
+            style={{
+              backgroundColor: "#3b4a64",
+              boxShadow: "rgba(32, 101, 209, 0.24) 0px 8px 16px 0px",
+              color: "white",
+              border: "none",
+              width: "5rem",
+            }}
+            onClick={() => handlePageChange(pageNo + 1)}
+            disabled={!hasData}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </>
   );
 }

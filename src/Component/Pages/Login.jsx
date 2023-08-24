@@ -29,7 +29,7 @@ function Copyright(props) {
     >
       {"Copyright © "}
       <Link color="inherit" href="https:/www.enggenv.com/">
-        Engineering And Enviromental Solutiion
+        Engineering and Environmental Solutions
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -50,10 +50,10 @@ export default function Login() {
       email: data.get("email"),
       password: data.get("password"),
     });
-    // const url = "http://localhost:8085/ene/sim/auth/login/";
+    const url = "http://localhost:8085/ene/sim/auth/login/";
     // const url = "https://sim-ostk.onrender.com/ene/sim/auth/login/";
     // const url = "https://sim-with-mongodb.onrender.com/ene/sim/auth/login/";
-    const url = "https://app.enggenv.com/ene/sim/auth/login/";
+    // const url = "https://app.enggenv.com/ene/sim/auth/login/";
 
     const header = {
       headers: {
@@ -138,7 +138,7 @@ export default function Login() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Login In
+              Login
             </Typography>
             <Box
               component="form"

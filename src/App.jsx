@@ -8,6 +8,7 @@ import ProtectedRoute from "./Component/Pages/ProtectiveRoute/ProtectedRoute";
 import SignUp from "./Component/Pages/Signup";
 import {
   BrowserRouter,
+  HashRouter,
   Navigate,
   Route,
   Router,
@@ -25,10 +26,11 @@ import { SimCardIcon } from "@mui/icons-material/SimCard";
 import CollapsibleTable from "./Demo";
 import CollapsableTable from "./Demo";
 import AddSimToExistingCompany from "./Component/Pages/Form/AddSimToExistingCompay";
+import NotProtectedRoutes from "./Component/Pages/ProtectiveRoute/NotProtectedRoutes";
 
 function App() {
   const [simData, setSimData] = useState([]);
-  const [tokenval, setTokenVal] = useState("");
+
   const getSimData = async () => {
     // const url = "http://localhost:8085/ene/sim/All/";
     const url = "https://app.enggenv.com/ene/sim/all";
@@ -43,26 +45,18 @@ function App() {
       console.log("Error While Fetching Data", error);
     }
   };
-  const tokenFunction = () => {
-    const token = localStorage.getItem("token");
-
-    setTokenVal(token);
-  };
 
   useEffect(() => {
     getSimData();
-    tokenFunction();
   }, []);
 
   return (
     <>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
-          <Route element={<CollapsableTable />} path="/demo" />
-          <Route
-            element={!tokenval ? <Login /> : <Navigate to="/" />}
-            path="/login"
-          />
+          <Route element={<NotProtectedRoutes />}>
+            <Route element={<Login />} path="/login" />
+          </Route>
 
           <Route element={<ProtectedRoute />}>
             <Route element={<DataTable />} path="/" />
@@ -72,7 +66,7 @@ function App() {
             <Route element={<SignUp />} path="/signup" />
           </Route>
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </>
   );
 }
