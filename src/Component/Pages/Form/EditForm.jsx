@@ -35,8 +35,8 @@ export default function EditForm(props) {
   });
   React.useEffect(() => {
     const getSimData = async () => {
-      const url = "http://localhost:8085/ene/sim/All/";
-      // const url = "https://app.enggenv.com/ene/sim/all";
+      // const url = "http://localhost:8085/ene/sim/All/";
+      const url = "https://app.enggenv.com/ene/sim/all";
 
       try {
         const response = await axios.get(url);
@@ -90,10 +90,10 @@ export default function EditForm(props) {
       clientName: data.get("clientName"),
     });
 
-    const url = `http://localhost:8085/ene/sim/update/${id}`;
+    // const url = `http://localhost:8085/ene/sim/update/${id}`;
     // const url = `https://sim-ostk.onrender.com/ene/sim/update/${id}`;
 
-    // const url = `https://app.enggenv.com/ene/sim/update/${id}`;
+    const url = `https://app.enggenv.com/ene/sim/update/${id}`;
     axios
       .patch(
         url,
